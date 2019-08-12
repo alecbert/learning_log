@@ -59,11 +59,10 @@ def new_entry(request, topic_id):
             # What is commit=false? A: don't save to db yet
             new_entry = form.save(commit=False)
             # Not sure why the form.save and then new_entry.save? Is that the only way to get the entry object out
-
+            new_entry.topic = topic
+            
             if new_entry.topic.owner != request.user:
                 raise HttpResponseBadRequest
-
-            new_entry.topic = topic
             new_entry.save()
             # Redirecting within the view
             return redirect('learning_logs:topic', topic_id=topic_id)
